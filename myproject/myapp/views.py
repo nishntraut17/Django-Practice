@@ -1,6 +1,11 @@
 # myapp/views.py
 from django.shortcuts import render
-from .models import MyModel
+
+# Correct import statement based on your provided models.py file
+from myapp.models import Student
+
+# Now you can use the Student class in your code
+
 
 from django.http import HttpResponse
 
