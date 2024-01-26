@@ -1,30 +1,32 @@
 # myapp/views.py
 from django.shortcuts import render
-
-# Correct import statement based on your provided models.py file
-from myapp.models import Student
-
-# Now you can use the Student class in your code
-
-
-from django.http import HttpResponse
+from rest_framework import viewsets
+from .models import Company, Employee
+from .serializers import CompanySerializer, EmployeeSerializer
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
-def home(request):
-    peoples = [
-        {"name": "Nishant Raut", "age": 13},
-        {"name": "Deep Patel", "age": 33},
-    ]
-    return render(request, "index.html", context={"peoples": peoples})
+# Create your views here.
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+
+    # companies/{companyId}/emplyees
+    @action(detail=True, methods=["get"])
+    def employees(self, request, pk=None):
+        try:
+            company = Company.objects.get(pk=pk)
+            emps = Employee.objects.filter(company=company)
+            emps_serializer = EmployeeSerializer(
+                emps, many=True, context={"request": request}
+            )
+            return Response(emps_serializer.data)
+        except Exception as e:
+            print(e)
+            return Response({"message": "Company might not exists !! Error"})
 
 
-def contact(request):
-    return render(request, "contact.html")
-
-
-def about(request):
-    return render(request, "about.html")
-
-
-def success_page(request):
-    return HttpResponse("This is a success page")
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer

@@ -1,12 +1,7 @@
-# myproject/urls.py
 from django.contrib import admin
-from django.urls import path
-from myapp.views import *
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", home, name="home"),
-    path("success-page/", success_page, name="success-page"),
-    path("contact/", contact, name="contact"),
-    path("about/", about, name="about"),
+    path("api/v1/", include("myapp.urls")),
 ]

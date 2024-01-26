@@ -25,7 +25,8 @@ SECRET_KEY = "django-insecure-^pckyxu8e@9@5uq@=f+5luonk&s-9$+8tjkme3h5r&u-b%)#b3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "myapp",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "myproject.urls"
@@ -70,6 +73,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myproject.wsgi.application"
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Replace with the actual URL of your React app
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
